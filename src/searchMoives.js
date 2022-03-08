@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function searchMoives() {
-  const searchMoives = async (e) => {
+export default function SearchMoives() {
+  const [query, setQuery] = useState("");
+  const [movies, setMovies] = useState([]);
+
+  const SearchMoives = async (e) => {
     e.preventDefault();
     console.log("mitting");
     const query = "Joker";
@@ -11,6 +14,7 @@ export default function searchMoives() {
       const res = await fetch(url);
       const data = await res.json();
       console.log(data);
+      setMovies(data.results);
     } catch (error) {
       console.error(error);
     }
@@ -18,7 +22,7 @@ export default function searchMoives() {
 
   return (
     <>
-      <form className="form" onSubmit={searchMoives}>
+      <form className="form" onSubmit={SearchMoives}>
         <label className="label" htmlFor="query">
           Movie Name
         </label>
@@ -27,6 +31,8 @@ export default function searchMoives() {
           type="text"
           name="query"
           placeholder="i.e. Joker"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
         />
         <button className="button" type="submit">
           Search
